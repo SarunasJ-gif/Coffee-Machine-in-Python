@@ -12,35 +12,17 @@ def insert_amount():
 
 
 def checking_recourses(choice):
-    if choice == "espresso":
-        if MENU[choice]["ingredients"]["water"] > resources["water"]:
-            print("Sorry, there is not enough water.")
-            return False
-        elif MENU[choice]["ingredients"]["coffee"] > resources["coffee"]:
-            print("Sorry, there is not enough coffee.")
+    drink = MENU[choice]
+    for ingredient in drink["ingredients"]:
+        if drink["ingredients"][ingredient] > resources[ingredient]:
+            print(f"Sorry, there is not enough {ingredient}.")
             return False
         else:
-            resources["water"] -= MENU[choice]["ingredients"]["water"]
-            resources["coffee"] -= MENU[choice]["ingredients"]["coffee"]
-            return True
-    else:
-        if MENU[choice]["ingredients"]["water"] > resources["water"]:
-            print("Sorry, there is not enough water.")
-            return False
-        elif MENU[choice]["ingredients"]["milk"] > resources["milk"]:
-            print("Sorry, there is not enough milk.")
-            return False
-        elif MENU[choice]["ingredients"]["coffee"] > resources["coffee"]:
-            print("Sorry, there is not enough coffee.")
-            return False
-        else:
-            resources["water"] -= MENU[choice]["ingredients"]["water"]
-            resources["milk"] -= MENU[choice]["ingredients"]["milk"]
-            resources["coffee"] -= MENU[choice]["ingredients"]["coffee"]
+            resources[ingredient] -= drink["ingredients"][ingredient]
             return True
 
 
-def coffe_machine():
+def coffee_machine():
     money_in_coffee_machine = 0
     working_coffee_machine = True
     while working_coffee_machine:
@@ -56,15 +38,12 @@ def coffe_machine():
                     print(f"Here is ${change} dollars in change")
                     print(f"Here is you {client_choice}. Enjoy!")
                 elif amount_paid == MENU[client_choice]["cost"]:
-                    print(f"Here is you {client_choice}. Enjoy!")
                     money_in_coffee_machine += MENU[client_choice]["cost"]
+                    print(f"Here is you {client_choice}. Enjoy!")
         elif client_choice == "report":
-            water = resources["water"]
-            milk = resources["milk"]
-            coffee = resources["coffee"]
-            print(f"{water}ml")
-            print(f"{milk}ml")
-            print(f"{coffee}g")
+            print(f"{resources['water']}ml")
+            print(f"{resources['milk']}ml")
+            print(f"{resources['coffee']}g")
             print(f"${money_in_coffee_machine}")
         elif client_choice == "off":
             working_coffee_machine = False
@@ -72,4 +51,4 @@ def coffe_machine():
             print("Invalid choice.")
 
 
-coffe_machine()
+coffee_machine()
